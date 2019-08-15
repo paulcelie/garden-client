@@ -1,31 +1,48 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <Menu @navigate="swapComponent"/>
+    <v-content>
+      <v-container grid-list-md fluid>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <div id="content">
+              <div :is="currentComponent"></div>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+<script>
+import Menu from './components/Menu';
+import Dashboard from './components/Dashboard';
+import Sprinklers from './components/Sprinklers';
+import Config from './components/Config';
+import Routines from './components/Routines';
+import External from './components/External';
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+import dotenv from 'dotenv';
+dotenv.config();
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  name: 'App',
+  components: {
+    Menu,
+    Dashboard,
+    Sprinklers,
+    Config,
+    Routines,
+    External,
+  },
+  data: () => ({
+    currentComponent: "Dashboard",
+  }),
+  methods: {
+    swapComponent: function(component) {
+      this.currentComponent = component;
+    }
+  }
+};
+</script>
